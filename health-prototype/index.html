@@ -1,0 +1,2140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MediMate — Smart Health Companion | ARISE · SNIST</title>
+<style>
+/* ================================================================
+   MEDIMATE v2.0 — FULL-SIZE REDESIGN
+   Color Scheme: Deep Navy + Teal + Indigo gradient
+   ARISE · SNIST · Wadhwani Foundation
+   100% Self-Contained · Zero External Dependencies
+   ================================================================ */
+:root {
+  --primary:       #0ea5e9;
+  --primary-dark:  #0284c7;
+  --primary-light: #e0f2fe;
+  --secondary:     #6366f1;
+  --secondary-dark:#4f46e5;
+  --accent:        #14b8a6;
+  --accent-dark:   #0f9b90;
+  --success:       #22c55e;
+  --success-dark:  #16a34a;
+  --success-light: #dcfce7;
+  --warning:       #f59e0b;
+  --warning-light: #fffbeb;
+  --danger:        #ef4444;
+  --danger-dark:   #dc2626;
+  --danger-light:  #fef2f2;
+  --purple:        #a855f7;
+  --purple-light:  #f5f3ff;
+
+  --bg-app:        #0f172a;
+  --bg-sidebar:    #1e293b;
+  --bg-main:       #0f172a;
+  --bg-card:       #1e293b;
+  --bg-card2:      #263148;
+  --text-main:     #f1f5f9;
+  --text-muted:    #94a3b8;
+  --text-dim:      #64748b;
+  --border:        #334155;
+  --border-light:  #2d3f5a;
+
+  --sidebar-w: 240px;
+  --header-h:  64px;
+  --radius:    14px;
+  --radius-sm: 8px;
+  --shadow:    0 4px 24px rgba(0,0,0,0.3);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.5);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-app);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+.sidebar {
+  width: var(--sidebar-w);
+  min-height: 100vh;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0; top: 0; bottom: 0;
+  z-index: 200;
+  transition: transform 0.3s;
+  overflow-y: auto;
+}
+.sidebar-logo {
+  padding: 20px 18px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+}
+.logo-pill {
+  width: 40px; height: 40px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.logo-pill span { display: block; }
+.sidebar-logo-text h1 { font-size: 17px; font-weight: 800; color: var(--text-main); }
+.sidebar-logo-text p { font-size: 10px; color: var(--text-muted); letter-spacing: 0.5px; }
+
+.sidebar-role {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.role-toggle {
+  display: flex; background: var(--bg-main); border-radius: 8px; padding: 3px; gap: 3px;
+}
+.role-tab {
+  flex: 1; padding: 7px 4px; border: none; border-radius: 6px; font-size: 11px;
+  font-weight: 600; cursor: pointer; transition: all 0.2s;
+  background: transparent; color: var(--text-muted);
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+}
+.role-tab.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+}
+
+.sidebar-nav { flex: 1; padding: 10px 10px; }
+.nav-section-label {
+  font-size: 10px; font-weight: 700; color: var(--text-dim);
+  text-transform: uppercase; letter-spacing: 1px;
+  padding: 10px 8px 6px;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 10px; border-radius: 10px; cursor: pointer;
+  transition: all 0.2s; color: var(--text-muted);
+  font-size: 13px; font-weight: 500; margin-bottom: 2px;
+  border: none; background: transparent; width: 100%; text-align: left;
+}
+.nav-item:hover { background: var(--bg-card2); color: var(--text-main); }
+.nav-item.active {
+  background: linear-gradient(135deg, rgba(14,165,233,0.2), rgba(99,102,241,0.2));
+  color: var(--primary);
+  border: 1px solid rgba(14,165,233,0.25);
+}
+.nav-icon { font-size: 16px; width: 20px; text-align: center; }
+.nav-badge {
+  margin-left: auto; background: var(--danger); color: white;
+  font-size: 10px; font-weight: 700; padding: 1px 7px;
+  border-radius: 20px; min-width: 20px; text-align: center;
+}
+
+.sidebar-footer {
+  padding: 14px;
+  border-top: 1px solid var(--border);
+}
+.patient-mini {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--bg-card2); border-radius: 10px; padding: 10px;
+}
+.patient-mini-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
+}
+.patient-mini-info { min-width: 0; }
+.patient-mini-name { font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.patient-mini-status { font-size: 11px; color: var(--text-muted); }
+
+/* ============================================================
+   MAIN AREA
+   ============================================================ */
+.main-wrapper {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ============================================================
+   TOP HEADER
+   ============================================================ */
+.topbar {
+  height: var(--header-h);
+  background: var(--bg-sidebar);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 24px;
+  gap: 16px; position: sticky; top: 0; z-index: 100;
+}
+.page-title { font-size: 18px; font-weight: 800; color: var(--text-main); flex: 1; }
+.page-subtitle { font-size: 12px; color: var(--text-muted); font-weight: 400; margin-top: 2px; }
+.topbar-actions { display: flex; align-items: center; gap: 10px; }
+.topbar-clock { text-align: right; }
+.topbar-clock .time { font-size: 20px; font-weight: 800; color: var(--primary); }
+.topbar-clock .date { font-size: 11px; color: var(--text-muted); }
+.icon-btn {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: var(--bg-card2); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; cursor: pointer; transition: all 0.2s; color: var(--text-muted);
+}
+.icon-btn:hover { background: var(--border); color: var(--text-main); }
+.icon-btn.alarm-active { background: rgba(239,68,68,0.15); border-color: var(--danger); color: var(--danger); animation: ring 0.5s infinite; }
+
+/* ============================================================
+   CONTENT AREA
+   ============================================================ */
+.page-content { padding: 24px; flex: 1; }
+.page-section { display: none; }
+.page-section.active { display: block; }
+
+/* ============================================================
+   CARDS / UI BLOCKS
+   ============================================================ */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.card-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.card-title {
+  font-size: 15px; font-weight: 700; color: var(--text-main);
+  display: flex; align-items: center; gap: 8px;
+}
+.card-body { padding: 18px 20px; }
+.card-body.p0 { padding: 0; }
+
+/* ============================================================
+   STAT CARDS ROW
+   ============================================================ */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+.stat-card:hover { transform: translateY(-2px); }
+.stat-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.stat-card.blue::before { background: linear-gradient(90deg, var(--primary), var(--secondary)); }
+.stat-card.green::before { background: linear-gradient(90deg, var(--success), var(--accent)); }
+.stat-card.orange::before { background: linear-gradient(90deg, var(--warning), #f97316); }
+.stat-card.red::before { background: linear-gradient(90deg, var(--danger), var(--purple)); }
+.stat-card.purple::before { background: linear-gradient(90deg, var(--purple), var(--secondary)); }
+.stat-icon {
+  font-size: 28px; margin-bottom: 10px; display: block;
+}
+.stat-num {
+  font-size: 36px; font-weight: 900; line-height: 1;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.stat-card.green .stat-num { background: linear-gradient(135deg, var(--success), var(--accent)); -webkit-background-clip: text; background-clip: text; }
+.stat-card.orange .stat-num { background: linear-gradient(135deg, var(--warning), #f97316); -webkit-background-clip: text; background-clip: text; }
+.stat-card.red .stat-num { background: linear-gradient(135deg, var(--danger), var(--purple)); -webkit-background-clip: text; background-clip: text; }
+.stat-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; font-weight: 600; }
+.stat-change {
+  font-size: 11px; color: var(--success); font-weight: 600;
+  display: flex; align-items: center; gap: 3px; margin-top: 6px;
+}
+.stat-change.down { color: var(--danger); }
+
+/* ============================================================
+   DASHBOARD GRID
+   ============================================================ */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+.grid-auto { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+
+/* ============================================================
+   MEDICINE TIMELINE CARDS
+   ============================================================ */
+.period-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+.period-card:hover { box-shadow: var(--shadow-lg); }
+.period-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; cursor: pointer;
+  border-left: 4px solid;
+}
+.period-card.morning .period-header { border-color: var(--warning); }
+.period-card.afternoon .period-header { border-color: var(--accent); }
+.period-card.night .period-header { border-color: var(--secondary); }
+.period-label {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 17px; font-weight: 800; color: var(--text-main);
+}
+.period-icon {
+  width: 42px; height: 42px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; font-size: 20px;
+}
+.morning .period-icon { background: rgba(245,158,11,0.15); }
+.afternoon .period-icon { background: rgba(20,184,166,0.15); }
+.night .period-icon { background: rgba(99,102,241,0.15); }
+.period-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; font-weight: 500; }
+.status-pill {
+  padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700;
+}
+.status-pill.due { background: rgba(239,68,68,0.15); color: var(--danger); border: 1px solid rgba(239,68,68,0.3); }
+.status-pill.done { background: rgba(34,197,94,0.15); color: var(--success); border: 1px solid rgba(34,197,94,0.3); }
+.status-pill.upcoming { background: rgba(148,163,184,0.1); color: var(--text-muted); border: 1px solid var(--border); }
+
+.period-body { padding: 0 20px 20px; }
+.sub-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.8px; color: var(--text-dim);
+  margin: 16px 0 10px;
+  display: flex; align-items: center; gap: 6px;
+}
+
+/* ============================================================
+   MEAL BOX
+   ============================================================ */
+.meal-box {
+  background: var(--bg-card2);
+  border: 1px solid var(--border-light);
+  border-radius: 12px; padding: 14px; margin-bottom: 14px;
+}
+.meal-items { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.meal-chip {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 20px; padding: 6px 12px;
+  font-size: 13px; color: var(--text-main); display: flex; align-items: center; gap: 5px;
+}
+.meal-btn {
+  width: 100%; padding: 12px; border: 1px solid var(--accent);
+  background: rgba(20,184,166,0.08);
+  border-radius: 10px; color: var(--accent);
+  font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.25s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.meal-btn:hover:not([disabled]) { background: var(--accent); color: white; transform: scale(1.01); }
+.meal-btn.eaten { background: rgba(34,197,94,0.1); color: var(--success); border-color: var(--success); cursor: not-allowed; }
+
+/* ============================================================
+   MEDICINE DOSE CARDS
+   ============================================================ */
+.med-row {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--bg-card2); border: 1px solid var(--border-light);
+  border-radius: 12px; padding: 14px; margin-bottom: 10px;
+  transition: all 0.25s;
+}
+.med-row:hover { border-color: var(--primary); background: rgba(14,165,233,0.05); }
+.med-row.taken { border-color: rgba(34,197,94,0.3); background: rgba(34,197,94,0.05); opacity: 0.8; }
+.med-row.overdue { border-color: rgba(239,68,68,0.4); background: rgba(239,68,68,0.06); animation: borderPulse 2s infinite; }
+.pill-circle {
+  width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; border: 2px solid rgba(255,255,255,0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.med-info { flex: 1; min-width: 0; }
+.med-name { font-size: 15px; font-weight: 700; color: var(--text-main); }
+.med-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.med-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.tag {
+  font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px;
+}
+.tag-blue { background: rgba(14,165,233,0.15); color: var(--primary); }
+.tag-green { background: rgba(34,197,94,0.15); color: var(--success); }
+.tag-orange { background: rgba(245,158,11,0.15); color: var(--warning); }
+.tag-red { background: rgba(239,68,68,0.15); color: var(--danger); }
+.tag-purple { background: rgba(168,85,247,0.15); color: var(--purple); }
+.tag-teal { background: rgba(20,184,166,0.15); color: var(--accent); }
+
+.dose-btn {
+  padding: 10px 16px; border: none; border-radius: 10px;
+  font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.25s;
+  white-space: nowrap; flex-shrink: 0;
+}
+.dose-btn.take { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; }
+.dose-btn.take:hover { transform: scale(1.04); box-shadow: 0 4px 16px rgba(14,165,233,0.4); }
+.dose-btn.taken-st { background: rgba(34,197,94,0.1); color: var(--success); border: 1px solid rgba(34,197,94,0.3); cursor: not-allowed; }
+.dose-btn.overdue-st { background: var(--danger); color: white; animation: pulse 1.5s infinite; }
+
+/* ============================================================
+   ALERT BANNERS
+   ============================================================ */
+.alert {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 12px 14px; border-radius: 10px; margin-bottom: 10px;
+  font-size: 13px;
+}
+.alert-icon { font-size: 16px; flex-shrink: 0; }
+.alert.warn { background: rgba(245,158,11,0.1); border-left: 3px solid var(--warning); color: #fbbf24; }
+.alert.danger { background: rgba(239,68,68,0.1); border-left: 3px solid var(--danger); color: #f87171; }
+.alert.info { background: rgba(14,165,233,0.1); border-left: 3px solid var(--primary); color: #38bdf8; }
+.alert.success { background: rgba(34,197,94,0.1); border-left: 3px solid var(--success); color: #4ade80; }
+
+/* ============================================================
+   FORMS
+   ============================================================ */
+.form-group { margin-bottom: 14px; }
+.form-label { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
+.form-input, .form-select, .form-textarea {
+  width: 100%; padding: 10px 14px;
+  background: var(--bg-main); border: 1.5px solid var(--border);
+  border-radius: 10px; font-size: 13px; color: var(--text-main);
+  transition: border 0.2s; outline: none;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--primary); box-shadow: 0 0 0 3px rgba(14,165,233,0.1);
+}
+.form-input::placeholder { color: var(--text-dim); }
+.form-select option { background: var(--bg-sidebar); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn {
+  padding: 10px 20px; border: none; border-radius: 10px;
+  font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.25s;
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(14,165,233,0.35); }
+.btn-success { background: linear-gradient(135deg, var(--success), var(--accent)); color: white; }
+.btn-success:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(34,197,94,0.35); }
+.btn-danger { background: rgba(239,68,68,0.1); color: var(--danger); border: 1px solid rgba(239,68,68,0.3); }
+.btn-danger:hover { background: var(--danger); color: white; }
+.btn-ghost { background: var(--bg-card2); color: var(--text-muted); border: 1px solid var(--border); }
+.btn-ghost:hover { color: var(--text-main); border-color: var(--primary); }
+.btn-sm { padding: 7px 14px; font-size: 11px; }
+.btn-xs { padding: 5px 10px; font-size: 10px; }
+.btn-full { width: 100%; justify-content: center; }
+
+/* ============================================================
+   TABLES
+   ============================================================ */
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table th {
+  text-align: left; font-size: 11px; font-weight: 700;
+  color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.8px;
+  padding: 10px 16px; border-bottom: 1px solid var(--border);
+  background: var(--bg-main);
+}
+.data-table td {
+  padding: 13px 16px; border-bottom: 1px solid var(--border-light);
+  font-size: 13px; color: var(--text-main); vertical-align: middle;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--bg-card2); }
+
+/* ============================================================
+   PROGRESS / BARS
+   ============================================================ */
+.progress-track {
+  height: 8px; background: var(--bg-main); border-radius: 20px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; border-radius: 20px; transition: width 0.6s ease;
+}
+.fill-blue { background: linear-gradient(90deg, var(--primary), var(--secondary)); }
+.fill-green { background: linear-gradient(90deg, var(--success), var(--accent)); }
+.fill-orange { background: linear-gradient(90deg, var(--warning), #f97316); }
+.fill-red { background: linear-gradient(90deg, var(--danger), var(--purple)); }
+
+/* ============================================================
+   BADGE
+   ============================================================ */
+.badge {
+  display: inline-block; padding: 2px 10px; border-radius: 20px;
+  font-size: 11px; font-weight: 700;
+}
+.badge-green { background: rgba(34,197,94,0.15); color: var(--success); }
+.badge-blue { background: rgba(14,165,233,0.15); color: var(--primary); }
+.badge-orange { background: rgba(245,158,11,0.15); color: var(--warning); }
+.badge-red { background: rgba(239,68,68,0.15); color: var(--danger); }
+.badge-gray { background: rgba(148,163,184,0.1); color: var(--text-muted); }
+
+/* ============================================================
+   VITALS / HEALTH CHART BARS
+   ============================================================ */
+.chart-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.chart-bar-label { font-size: 12px; color: var(--text-muted); min-width: 60px; font-weight: 600; }
+.chart-bar-wrap { flex: 1; height: 10px; background: var(--bg-main); border-radius: 20px; overflow: hidden; }
+.chart-bar-fill { height: 100%; border-radius: 20px; transition: width 0.6s; }
+.chart-bar-val { font-size: 12px; font-weight: 700; min-width: 44px; text-align: right; }
+
+/* ============================================================
+   WEEKLY ADHERENCE GRID
+   ============================================================ */
+.week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+.week-day { text-align: center; }
+.week-day-label { font-size: 11px; color: var(--text-dim); margin-bottom: 6px; }
+.week-dot {
+  width: 36px; height: 36px; border-radius: 50%; margin: 0 auto;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; border: 2px solid;
+}
+.week-dot.full { background: rgba(34,197,94,0.2); border-color: var(--success); color: var(--success); }
+.week-dot.partial { background: rgba(245,158,11,0.2); border-color: var(--warning); color: var(--warning); }
+.week-dot.missed { background: rgba(239,68,68,0.15); border-color: var(--danger); color: var(--danger); }
+.week-dot.today { background: linear-gradient(135deg, var(--primary), var(--secondary)); border-color: transparent; color: white; box-shadow: 0 4px 12px rgba(14,165,233,0.4); }
+.week-dot.empty { background: var(--bg-main); border-color: var(--border); color: var(--text-dim); }
+
+/* ============================================================
+   IOT SMART BOX
+   ============================================================ */
+.iot-panel {
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px; margin-bottom: 20px;
+}
+.iot-title { font-size: 14px; font-weight: 700; color: var(--text-main); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.iot-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.iot-slot {
+  background: rgba(255,255,255,0.03); border-radius: 12px; padding: 14px;
+  text-align: center; border: 2px solid rgba(255,255,255,0.08); transition: all 0.3s;
+}
+.iot-slot.ok { border-color: rgba(34,197,94,0.4); background: rgba(34,197,94,0.07); }
+.iot-slot.alert { border-color: rgba(239,68,68,0.4); background: rgba(239,68,68,0.07); }
+.iot-slot.pending { border-color: rgba(245,158,11,0.3); background: rgba(245,158,11,0.05); }
+.iot-led {
+  width: 12px; height: 12px; border-radius: 50%; margin: 0 auto 8px;
+  background: rgba(255,255,255,0.08);
+}
+.iot-slot.ok .iot-led { background: var(--success); box-shadow: 0 0 10px var(--success); }
+.iot-slot.alert .iot-led { background: var(--danger); box-shadow: 0 0 10px var(--danger); animation: pulse 1s infinite; }
+.iot-slot.pending .iot-led { background: var(--warning); box-shadow: 0 0 8px var(--warning); }
+.iot-slot-label { font-size: 10px; color: var(--text-dim); font-weight: 700; text-transform: uppercase; margin-bottom: 4px; }
+.iot-slot-med { font-size: 12px; font-weight: 700; color: var(--text-main); }
+.iot-slot-status { font-size: 10px; color: var(--text-muted); margin-top: 3px; }
+
+/* ============================================================
+   VITALS INPUT
+   ============================================================ */
+.vitals-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
+.vital-card {
+  background: var(--bg-card2); border: 1px solid var(--border-light);
+  border-radius: 12px; padding: 16px; text-align: center;
+  transition: border 0.2s;
+}
+.vital-card:hover { border-color: var(--primary); }
+.vital-icon { font-size: 28px; margin-bottom: 8px; }
+.vital-val { font-size: 28px; font-weight: 900; color: var(--text-main); }
+.vital-unit { font-size: 12px; color: var(--text-dim); }
+.vital-label { font-size: 11px; color: var(--text-muted); margin-top: 4px; font-weight: 600; }
+.vital-status { font-size: 10px; font-weight: 700; margin-top: 6px; }
+.vital-status.normal { color: var(--success); }
+.vital-status.high { color: var(--danger); }
+.vital-status.low { color: var(--warning); }
+
+/* ============================================================
+   APPOINTMENTS
+   ============================================================ */
+.appt-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px; border-bottom: 1px solid var(--border-light);
+  transition: background 0.2s;
+}
+.appt-row:last-child { border-bottom: none; }
+.appt-row:hover { background: var(--bg-card2); }
+.appt-date {
+  width: 50px; text-align: center; flex-shrink: 0;
+  background: var(--bg-main); border-radius: 10px; padding: 8px;
+  border: 1px solid var(--border);
+}
+.appt-day { font-size: 20px; font-weight: 900; color: var(--primary); line-height: 1; }
+.appt-month { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
+.appt-info { flex: 1; }
+.appt-name { font-size: 14px; font-weight: 700; }
+.appt-spec { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.appt-time { font-size: 11px; color: var(--accent); font-weight: 600; }
+
+/* ============================================================
+   INVENTORY
+   ============================================================ */
+.inv-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 14px; border-radius: 10px; margin-bottom: 6px;
+  background: var(--bg-card2); border: 1px solid var(--border-light);
+}
+.inv-pill { width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.inv-info { flex: 1; }
+.inv-name { font-size: 13px; font-weight: 700; }
+.inv-detail { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.inv-count { text-align: right; }
+.inv-num { font-size: 20px; font-weight: 800; }
+.inv-num.low { color: var(--danger); }
+.inv-num.ok { color: var(--success); }
+.inv-num.medium { color: var(--warning); }
+.inv-label { font-size: 10px; color: var(--text-dim); }
+.inv-bar { margin-top: 4px; }
+
+/* ============================================================
+   NOTIFICATIONS PANEL
+   ============================================================ */
+.notif-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 14px 16px; border-bottom: 1px solid var(--border-light);
+  transition: background 0.2s;
+}
+.notif-item:last-child { border-bottom: none; }
+.notif-item:hover { background: var(--bg-card2); }
+.notif-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.notif-dot.red { background: var(--danger); }
+.notif-dot.green { background: var(--success); }
+.notif-dot.blue { background: var(--primary); }
+.notif-dot.orange { background: var(--warning); }
+.notif-text { font-size: 13px; color: var(--text-main); }
+.notif-time { font-size: 11px; color: var(--text-dim); margin-top: 3px; }
+
+/* ============================================================
+   MODAL / ALARM
+   ============================================================ */
+.overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+  z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px;
+  backdrop-filter: blur(4px);
+}
+.overlay.open { display: flex; }
+.modal {
+  background: var(--bg-sidebar); border: 1px solid var(--border);
+  border-radius: 20px; width: 100%; max-width: 440px;
+  box-shadow: var(--shadow-lg); animation: popIn 0.3s ease; overflow: hidden;
+}
+.modal-head {
+  background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
+  padding: 28px; text-align: center; color: white;
+}
+.modal-head .big-icon { font-size: 52px; margin-bottom: 10px; display: block; }
+.modal-head h2 { font-size: 22px; font-weight: 800; }
+.modal-head p { opacity: 0.85; font-size: 13px; margin-top: 4px; }
+.modal-body { padding: 24px; }
+.modal-foot { padding: 0 24px 24px; display: flex; gap: 10px; }
+.modal-btn {
+  flex: 1; padding: 13px; border: none; border-radius: 12px;
+  font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.25s;
+}
+.modal-btn.snooze { background: var(--bg-card2); color: var(--text-muted); border: 1px solid var(--border); }
+.modal-btn.confirm { background: linear-gradient(135deg, var(--success), var(--accent)); color: white; }
+.modal-btn.confirm:hover { transform: scale(1.02); box-shadow: 0 6px 20px rgba(34,197,94,0.3); }
+
+.med-remind-row {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--bg-card2); border-radius: 10px; padding: 12px;
+  margin-bottom: 8px; border: 1px solid var(--border-light);
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast-wrap { position: fixed; top: 80px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
+.toast {
+  background: var(--bg-sidebar); border: 1px solid var(--border);
+  border-left: 4px solid; border-radius: 12px;
+  padding: 14px 16px; min-width: 280px; max-width: 340px;
+  display: flex; align-items: flex-start; gap: 10px;
+  box-shadow: var(--shadow-lg); animation: slideIn 0.3s ease;
+  font-size: 13px; color: var(--text-main);
+}
+.toast.success { border-left-color: var(--success); }
+.toast.warning { border-left-color: var(--warning); }
+.toast.error { border-left-color: var(--danger); }
+.toast.info { border-left-color: var(--primary); }
+
+/* ============================================================
+   FLOATING ALARM BTN
+   ============================================================ */
+.fab {
+  position: fixed; bottom: 28px; right: 28px;
+  width: 60px; height: 60px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white; border: none; font-size: 24px; cursor: pointer;
+  box-shadow: 0 6px 24px rgba(14,165,233,0.5); z-index: 300;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.25s;
+}
+.fab:hover { transform: scale(1.1); }
+.fab.ringing { animation: ring 0.5s infinite; }
+
+/* ============================================================
+   GOAL CHIPS
+   ============================================================ */
+.chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  display: flex; align-items: center; gap: 5px; padding: 6px 14px;
+  border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer;
+  border: 1.5px solid; transition: all 0.2s; background: transparent;
+}
+.chip.c-blue { border-color: var(--primary); color: var(--primary); }
+.chip.c-blue.active { background: rgba(14,165,233,0.15); }
+.chip.c-red { border-color: var(--danger); color: var(--danger); }
+.chip.c-red.active { background: rgba(239,68,68,0.12); }
+.chip.c-green { border-color: var(--success); color: var(--success); }
+.chip.c-green.active { background: rgba(34,197,94,0.12); }
+.chip.c-orange { border-color: var(--warning); color: var(--warning); }
+.chip.c-orange.active { background: rgba(245,158,11,0.12); }
+.chip.c-purple { border-color: var(--purple); color: var(--purple); }
+.chip.c-purple.active { background: rgba(168,85,247,0.12); }
+
+/* ============================================================
+   DIVIDER
+   ============================================================ */
+.divider { height: 1px; background: var(--border); margin: 16px 0; }
+
+/* ============================================================
+   SECTION FADE
+   ============================================================ */
+.fade-in { animation: fadeUp 0.4s ease both; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width: 1024px) {
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .grid-2 { grid-template-columns: 1fr; }
+  .grid-3 { grid-template-columns: 1fr; }
+  .iot-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media(max-width: 768px) {
+  :root { --sidebar-w: 0px; }
+  .sidebar { transform: translateX(-240px); }
+  .sidebar.mobile-open { transform: translateX(0); --sidebar-w: 240px; }
+  .main-wrapper { margin-left: 0; }
+  .topbar { padding: 0 14px; }
+  .page-content { padding: 14px; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .form-row, .form-row-3 { grid-template-columns: 1fr; }
+  .week-grid { gap: 4px; }
+  .week-dot { width: 28px; height: 28px; }
+}
+@media(max-width: 480px) {
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .iot-grid { grid-template-columns: 1fr 1fr; }
+  .vitals-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
+@keyframes ring { 0%,100%{transform:rotate(0)} 25%{transform:rotate(-12deg)} 75%{transform:rotate(12deg)} }
+@keyframes slideIn { from{transform:translateX(100px);opacity:0} to{transform:translateX(0);opacity:1} }
+@keyframes popIn { from{transform:scale(0.85);opacity:0} to{transform:scale(1);opacity:1} }
+@keyframes fadeUp { from{transform:translateY(16px);opacity:0} to{transform:translateY(0);opacity:1} }
+@keyframes borderPulse { 0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,0.2)} 50%{box-shadow:0 0 0 6px rgba(239,68,68,0)} }
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-main); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+/* Mobile menu btn */
+.mobile-menu-btn { display: none; }
+@media(max-width:768px) { .mobile-menu-btn { display: flex; } }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     SIDEBAR
+     ============================================================ -->
+<aside class="sidebar" id="sidebar">
+  <!-- Logo -->
+  <div class="sidebar-logo">
+    <div class="logo-pill"><span>💊</span></div>
+    <div class="sidebar-logo-text">
+      <h1>MediMate</h1>
+      <p>ARISE · SNIST · WADHWANI</p>
+    </div>
+  </div>
+
+  <!-- Role Switcher -->
+  <div class="sidebar-role">
+    <div class="role-toggle">
+      <button class="role-tab active" id="tab-patient" onclick="switchRole('patient')">👴 Patient</button>
+      <button class="role-tab" id="tab-care" onclick="switchRole('caregiver')">👨‍⚕️ Caregiver</button>
+    </div>
+  </div>
+
+  <!-- Nav Items -->
+  <nav class="sidebar-nav" id="sidebar-nav">
+    <!-- Patient nav -->
+    <div id="nav-patient">
+      <div class="nav-section-label">Main</div>
+      <button class="nav-item active" onclick="showPage('dashboard')">
+        <span class="nav-icon">🏠</span> Dashboard
+      </button>
+      <button class="nav-item" onclick="showPage('today')">
+        <span class="nav-icon">💊</span> Today's Medicines
+        <span class="nav-badge" id="badge-missed">1</span>
+      </button>
+      <button class="nav-item" onclick="showPage('meals')">
+        <span class="nav-icon">🥗</span> Meal Plan
+      </button>
+      <button class="nav-item" onclick="showPage('vitals')">
+        <span class="nav-icon">📈</span> My Vitals
+      </button>
+      <div class="nav-section-label">Info</div>
+      <button class="nav-item" onclick="showPage('inventory')">
+        <span class="nav-icon">📦</span> Medicine Stock
+      </button>
+      <button class="nav-item" onclick="showPage('appointments')">
+        <span class="nav-icon">📅</span> Appointments
+      </button>
+      <button class="nav-item" onclick="showPage('history')">
+        <span class="nav-icon">📋</span> Dose History
+      </button>
+    </div>
+    <!-- Caregiver nav -->
+    <div id="nav-caregiver" style="display:none">
+      <div class="nav-section-label">Management</div>
+      <button class="nav-item active" onclick="showPage('cg-dashboard')">
+        <span class="nav-icon">📊</span> CG Dashboard
+      </button>
+      <button class="nav-item" onclick="showPage('prescriptions')">
+        <span class="nav-icon">📝</span> Prescriptions
+      </button>
+      <button class="nav-item" onclick="showPage('adherence')">
+        <span class="nav-icon">📋</span> Adherence Log
+      </button>
+      <button class="nav-item" onclick="showPage('alarms')">
+        <span class="nav-icon">⏰</span> Alarm Settings
+      </button>
+      <div class="nav-section-label">Setup</div>
+      <button class="nav-item" onclick="showPage('patient-setup')">
+        <span class="nav-icon">🧑</span> Patient Profile
+      </button>
+      <button class="nav-item" onclick="showPage('notifications')">
+        <span class="nav-icon">🔔</span> Notifications
+      </button>
+      <button class="nav-item" onclick="showPage('reports')">
+        <span class="nav-icon">📤</span> Reports
+      </button>
+    </div>
+  </nav>
+
+  <!-- Patient Mini Card -->
+  <div class="sidebar-footer">
+    <div class="patient-mini">
+      <div class="patient-mini-avatar">👴</div>
+      <div class="patient-mini-info">
+        <div class="patient-mini-name">Ramesh Chandra</div>
+        <div class="patient-mini-status">🟢 72% adherence today</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ============================================================
+     MAIN WRAPPER
+     ============================================================ -->
+<div class="main-wrapper">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <button class="icon-btn mobile-menu-btn" onclick="document.getElementById('sidebar').classList.toggle('mobile-open')">☰</button>
+    <div style="flex:1">
+      <div class="page-title" id="page-title-text">Dashboard</div>
+      <div class="page-subtitle" id="page-subtitle-text">Good morning, Ramesh. Here's your health overview for today.</div>
+    </div>
+    <div class="topbar-actions">
+      <button class="icon-btn" title="Notifications" onclick="showPage('notifications')">🔔</button>
+      <button class="icon-btn alarm-active" id="alarm-fab-top" onclick="triggerAlarm('morning')" title="Test Alarm">⏰</button>
+      <div class="topbar-clock">
+        <div class="time" id="live-time">--:-- --</div>
+        <div class="date" id="live-date">Loading...</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- PAGE CONTENT -->
+  <div class="page-content">
+
+    <!-- ======================================================
+         1. PATIENT DASHBOARD
+         ====================================================== -->
+    <div class="page-section active fade-in" id="page-dashboard">
+
+      <!-- Alert Banner -->
+      <div class="alert danger" style="margin-bottom:20px">
+        <span class="alert-icon">🚨</span>
+        <div><strong>Missed Dose Alert!</strong> Amlodipine 5mg (Morning) was due at 8:00 AM. <button class="btn btn-danger btn-xs" style="margin-left:8px" onclick="showPage('today')">View Now →</button></div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="stat-card blue">
+          <span class="stat-icon">💊</span>
+          <div class="stat-num" id="ds-total">6</div>
+          <div class="stat-label">Total Doses Today</div>
+          <div class="stat-change">↑ 3 meds active</div>
+        </div>
+        <div class="stat-card green">
+          <span class="stat-icon">✅</span>
+          <div class="stat-num" id="ds-taken">2</div>
+          <div class="stat-label">Confirmed Taken</div>
+          <div class="stat-change">↑ On schedule</div>
+        </div>
+        <div class="stat-card orange">
+          <span class="stat-icon">⏳</span>
+          <div class="stat-num" id="ds-pending">3</div>
+          <div class="stat-label">Pending Doses</div>
+        </div>
+        <div class="stat-card red">
+          <span class="stat-icon">⚠️</span>
+          <div class="stat-num" id="ds-missed">1</div>
+          <div class="stat-label">Missed Today</div>
+          <div class="stat-change down">↑ Needs attention</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- Weekly Adherence -->
+        <div class="card fade-in">
+          <div class="card-header">
+            <div class="card-title">📅 Weekly Adherence</div>
+            <span class="badge badge-blue">This Week</span>
+          </div>
+          <div class="card-body">
+            <div class="week-grid">
+              <div class="week-day"><div class="week-day-label">Mon</div><div class="week-dot full">100%</div></div>
+              <div class="week-day"><div class="week-day-label">Tue</div><div class="week-dot full">100%</div></div>
+              <div class="week-day"><div class="week-day-label">Wed</div><div class="week-dot partial">83%</div></div>
+              <div class="week-day"><div class="week-day-label">Thu</div><div class="week-dot missed">67%</div></div>
+              <div class="week-day"><div class="week-day-label">Fri</div><div class="week-dot full">100%</div></div>
+              <div class="week-day"><div class="week-day-label">Sat</div><div class="week-dot full">100%</div></div>
+              <div class="week-day"><div class="week-day-label">Today</div><div class="week-dot today">72%</div></div>
+            </div>
+            <div class="divider"></div>
+            <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-muted)">
+              <span>7-day avg: <strong style="color:var(--success)">88.9%</strong></span>
+              <span>Goal: <strong style="color:var(--primary)">≥ 90%</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Today's Vitals Quick -->
+        <div class="card fade-in">
+          <div class="card-header">
+            <div class="card-title">❤️ Today's Vitals</div>
+            <button class="btn btn-ghost btn-sm" onclick="showPage('vitals')">View All →</button>
+          </div>
+          <div class="card-body">
+            <div class="chart-bar-row">
+              <div class="chart-bar-label">BP Sys</div>
+              <div class="chart-bar-wrap"><div class="chart-bar-fill fill-red" style="width:72%"></div></div>
+              <div class="chart-bar-val" style="color:var(--danger)">142 mmHg</div>
+            </div>
+            <div class="chart-bar-row">
+              <div class="chart-bar-label">Blood Sugar</div>
+              <div class="chart-bar-wrap"><div class="chart-bar-fill fill-orange" style="width:65%"></div></div>
+              <div class="chart-bar-val" style="color:var(--warning)">130 mg/dL</div>
+            </div>
+            <div class="chart-bar-row">
+              <div class="chart-bar-label">Heart Rate</div>
+              <div class="chart-bar-wrap"><div class="chart-bar-fill fill-green" style="width:78%"></div></div>
+              <div class="chart-bar-val" style="color:var(--success)">78 bpm</div>
+            </div>
+            <div class="chart-bar-row">
+              <div class="chart-bar-label">Weight</div>
+              <div class="chart-bar-wrap"><div class="chart-bar-fill fill-blue" style="width:60%"></div></div>
+              <div class="chart-bar-val" style="color:var(--primary)">68 kg</div>
+            </div>
+            <div class="chart-bar-row">
+              <div class="chart-bar-label">SpO2</div>
+              <div class="chart-bar-wrap"><div class="chart-bar-fill fill-green" style="width:97%"></div></div>
+              <div class="chart-bar-val" style="color:var(--success)">97%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Next Dose Card -->
+        <div class="card fade-in">
+          <div class="card-header">
+            <div class="card-title">⏰ Next Upcoming Dose</div>
+            <span class="badge badge-orange">Afternoon · 1:00 PM</span>
+          </div>
+          <div class="card-body">
+            <div class="med-row">
+              <div class="pill-circle" style="background:#3182ce">💊</div>
+              <div class="med-info">
+                <div class="med-name">Metformin 500mg</div>
+                <div class="med-sub">1 Tablet · After Lunch · Diabetes (T2)</div>
+                <div class="med-tags">
+                  <span class="tag tag-orange">🍽 After Food</span>
+                  <span class="tag tag-blue">🔵 Oval, Blue</span>
+                </div>
+              </div>
+              <button class="dose-btn take" onclick="showPage('today');showToast('💊 Navigate to Today to confirm dose','info')">Go →</button>
+            </div>
+            <div class="divider"></div>
+            <div class="alert info" style="margin-bottom:0">
+              <span class="alert-icon">💡</span>
+              <div>Eat your lunch before taking Metformin to avoid stomach upset.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inventory Quick -->
+        <div class="card fade-in">
+          <div class="card-header">
+            <div class="card-title">📦 Medicine Stock Alert</div>
+            <button class="btn btn-ghost btn-sm" onclick="showPage('inventory')">Full Inventory →</button>
+          </div>
+          <div class="card-body">
+            <div class="inv-row">
+              <div class="inv-pill" style="background:rgba(239,68,68,0.15)">🔴</div>
+              <div class="inv-info"><div class="inv-name">Amlodipine 5mg</div><div class="inv-detail">Refill needed soon!</div></div>
+              <div class="inv-count"><div class="inv-num low">5</div><div class="inv-label">tablets left</div></div>
+            </div>
+            <div class="inv-row">
+              <div class="inv-pill" style="background:rgba(14,165,233,0.15)">🔵</div>
+              <div class="inv-info"><div class="inv-name">Metformin 500mg</div><div class="inv-detail">Adequate supply</div></div>
+              <div class="inv-count"><div class="inv-num ok">28</div><div class="inv-label">tablets left</div></div>
+            </div>
+            <div class="inv-row">
+              <div class="inv-pill" style="background:rgba(168,85,247,0.15)">🟣</div>
+              <div class="inv-info"><div class="inv-name">Atorvastatin 10mg</div><div class="inv-detail">Adequate supply</div></div>
+              <div class="inv-count"><div class="inv-num medium">12</div><div class="inv-label">tablets left</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- IoT Box -->
+      <div class="iot-panel fade-in">
+        <div class="iot-title">📦 Smart Medicine Box — Live Hardware Status</div>
+        <div class="iot-grid">
+          <div class="iot-slot alert" id="iot-A">
+            <div class="iot-led"></div>
+            <div class="iot-slot-label">Slot A</div>
+            <div class="iot-slot-med">Amlodipine</div>
+            <div class="iot-slot-status">🚨 Lid not opened</div>
+          </div>
+          <div class="iot-slot ok" id="iot-B">
+            <div class="iot-led"></div>
+            <div class="iot-slot-label">Slot B</div>
+            <div class="iot-slot-med">Metformin</div>
+            <div class="iot-slot-status">✅ Taken 8:45 AM</div>
+          </div>
+          <div class="iot-slot pending" id="iot-C">
+            <div class="iot-led"></div>
+            <div class="iot-slot-label">Slot C</div>
+            <div class="iot-slot-med">Atorvastatin</div>
+            <div class="iot-slot-status">⏳ Due 9:00 PM</div>
+          </div>
+          <div class="iot-slot ok" id="iot-D">
+            <div class="iot-led"></div>
+            <div class="iot-slot-label">Slot D</div>
+            <div class="iot-slot-med">Aspirin</div>
+            <div class="iot-slot-status">✅ Taken 8:50 PM</div>
+          </div>
+        </div>
+        <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-ghost btn-sm" onclick="simBox()">🔄 Simulate Box Open</button>
+          <button class="btn btn-primary btn-sm" onclick="triggerAlarm('morning')">🔔 Test Alarm Now</button>
+          <span style="font-size:12px;color:var(--text-dim);align-self:center">Bluetooth LE connected · Signal: Excellent</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ======================================================
+         2. TODAY'S MEDICINES
+         ====================================================== -->
+    <div class="page-section fade-in" id="page-today">
+
+      <div class="alert danger" id="overdue-alert" style="margin-bottom:20px">
+        <span class="alert-icon">🚨</span>
+        <div><strong>1 Missed Dose:</strong> Amlodipine 5mg was due at 8:00 AM — take it now or contact your caregiver.</div>
+      </div>
+
+      <!-- MORNING -->
+      <div class="period-card morning">
+        <div class="period-header" onclick="togglePeriod('pd-morning')">
+          <div class="period-label">
+            <div class="period-icon">🌅</div>
+            <div>Morning <div class="period-meta">8:00 AM · 2 medicines</div></div>
+          </div>
+          <span class="status-pill due">Due Now</span>
+        </div>
+        <div id="pd-morning" class="period-body">
+          <div class="sub-label">🍽️ What to Eat (Before Medicine)</div>
+          <div class="meal-box">
+            <div class="meal-items">
+              <div class="meal-chip">🥣 Oats Porridge (1 cup)</div>
+              <div class="meal-chip">🫙 2 Idlis with Sambar</div>
+              <div class="meal-chip">☕ Low-fat Milk (no sugar)</div>
+              <div class="meal-chip">🫐 5–6 Almonds</div>
+            </div>
+            <button class="meal-btn" id="meal-morning-btn" onclick="eatMeal('morning')">🍴 Mark Morning Meal as Eaten</button>
+          </div>
+          <div class="alert warn">
+            <span class="alert-icon">⚠️</span>
+            <div><strong>Food-Drug Warning:</strong> Take Metformin immediately after eating — never on empty stomach.</div>
+          </div>
+          <div class="sub-label">💊 Medicines</div>
+          <div class="med-row overdue" id="card-amlodipine-m">
+            <div class="pill-circle" style="background:rgba(239,68,68,0.3)">💊</div>
+            <div class="med-info">
+              <div class="med-name">Amlodipine 5mg</div>
+              <div class="med-sub">1 Tablet · After Breakfast · Blood Pressure (Hypertension)</div>
+              <div class="med-tags">
+                <span class="tag tag-red">⚠ Missed · 8:00 AM</span>
+                <span class="tag tag-blue">🔴 Round, Red</span>
+                <span class="tag tag-orange">After Food</span>
+              </div>
+            </div>
+            <button class="dose-btn overdue-st" id="btn-amlodipine-m" onclick="takeDose('amlodipine-m','Amlodipine 5mg')">🚨 Take Now</button>
+          </div>
+          <div class="med-row" id="card-metformin-m">
+            <div class="pill-circle" style="background:rgba(14,165,233,0.3)">💊</div>
+            <div class="med-info">
+              <div class="med-name">Metformin 500mg</div>
+              <div class="med-sub">1 Tablet · After Breakfast · Diabetes (Type 2)</div>
+              <div class="med-tags">
+                <span class="tag tag-blue">🔵 Oval, Blue</span>
+                <span class="tag tag-orange">After Food Only</span>
+              </div>
+            </div>
+            <button class="dose-btn take" id="btn-metformin-m" onclick="takeDose('metformin-m','Metformin 500mg')">✓ Mark Taken</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- AFTERNOON -->
+      <div class="period-card afternoon">
+        <div class="period-header" onclick="togglePeriod('pd-afternoon')">
+          <div class="period-label">
+            <div class="period-icon">☀️</div>
+            <div>Afternoon <div class="period-meta">1:00 PM · 1 medicine</div></div>
+          </div>
+          <span class="status-pill upcoming">Upcoming</span>
+        </div>
+        <div id="pd-afternoon" class="period-body" style="display:none">
+          <div class="sub-label">🍽️ What to Eat</div>
+          <div class="meal-box">
+            <div class="meal-items">
+              <div class="meal-chip">🍚 Brown Rice (1 cup)</div>
+              <div class="meal-chip">🥗 Palak Dal</div>
+              <div class="meal-chip">🥒 Cucumber Salad</div>
+              <div class="meal-chip">🥛 Buttermilk (no salt)</div>
+            </div>
+            <button class="meal-btn" id="meal-afternoon-btn" onclick="eatMeal('afternoon')">🍴 Mark Afternoon Meal as Eaten</button>
+          </div>
+          <div class="sub-label">💊 Medicines</div>
+          <div class="med-row" id="card-metformin-a">
+            <div class="pill-circle" style="background:rgba(14,165,233,0.3)">💊</div>
+            <div class="med-info">
+              <div class="med-name">Metformin 500mg</div>
+              <div class="med-sub">1 Tablet · After Lunch · Diabetes (Type 2)</div>
+              <div class="med-tags">
+                <span class="tag tag-blue">🔵 Oval, Blue</span>
+                <span class="tag tag-orange">After Food Only</span>
+              </div>
+            </div>
+            <button class="dose-btn take" id="btn-metformin-a" onclick="takeDose('metformin-a','Metformin 500mg')">✓ Mark Taken</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- NIGHT -->
+      <div class="period-card night">
+        <div class="period-header" onclick="togglePeriod('pd-night')">
+          <div class="period-label">
+            <div class="period-icon">🌙</div>
+            <div>Night <div class="period-meta">9:00 PM · 3 medicines</div></div>
+          </div>
+          <span class="status-pill upcoming">Upcoming</span>
+        </div>
+        <div id="pd-night" class="period-body" style="display:none">
+          <div class="sub-label">🍽️ What to Eat</div>
+          <div class="meal-box">
+            <div class="meal-items">
+              <div class="meal-chip">🫓 2 Wheat Chapatis</div>
+              <div class="meal-chip">🫘 Mixed Veg Sabzi</div>
+              <div class="meal-chip">🫙 Low-fat Curd (1 cup)</div>
+              <div class="meal-chip">🍏 1 small Apple</div>
+            </div>
+            <button class="meal-btn" id="meal-night-btn" onclick="eatMeal('night')">🍴 Mark Night Meal as Eaten</button>
+          </div>
+          <div class="sub-label">💊 Medicines</div>
+          <div class="med-row" id="card-atorva-n">
+            <div class="pill-circle" style="background:rgba(168,85,247,0.3)">💊</div>
+            <div class="med-info">
+              <div class="med-name">Atorvastatin 10mg</div>
+              <div class="med-sub">1 Tablet · After Dinner · Cholesterol Control</div>
+              <div class="med-tags">
+                <span class="tag tag-purple">🟣 Round, Purple</span>
+                <span class="tag tag-teal">Best at Night</span>
+              </div>
+            </div>
+            <button class="dose-btn take" id="btn-atorva-n" onclick="takeDose('atorva-n','Atorvastatin 10mg')">✓ Mark Taken</button>
+          </div>
+          <div class="med-row" id="card-amlodipine-n">
+            <div class="pill-circle" style="background:rgba(239,68,68,0.3)">💊</div>
+            <div class="med-info">
+              <div class="med-name">Amlodipine 5mg</div>
+              <div class="med-sub">1 Tablet · After Dinner · Blood Pressure</div>
+              <div class="med-tags">
+                <span class="tag tag-red">🔴 Round, Red</span>
+                <span class="tag tag-orange">After Food</span>
+              </div>
+            </div>
+            <button class="dose-btn take" id="btn-amlodipine-n" onclick="takeDose('amlodipine-n','Amlodipine 5mg')">✓ Mark Taken</button>
+          </div>
+          <div class="med-row taken" id="card-aspirin-n">
+            <div class="pill-circle" style="background:rgba(34,197,94,0.3)">💊</div>
+            <div class="med-info">
+              <div class="med-name">Aspirin 75mg (Ecosprin)</div>
+              <div class="med-sub">1 Tablet · After Dinner · Heart Protection</div>
+              <div class="med-tags">
+                <span class="tag tag-green">🟢 Round, White</span>
+                <span class="badge badge-green" style="font-size:10px">✅ Taken at 8:50 PM</span>
+              </div>
+            </div>
+            <button class="dose-btn taken-st" id="btn-aspirin-n">✅ Taken</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ======================================================
+         3. MEAL PLAN
+         ====================================================== -->
+    <div class="page-section fade-in" id="page-meals">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">🥗 Nutrition Goals</div><span class="badge badge-blue">Diabetes + BP</span></div>
+          <div class="card-body">
+            <div style="margin-bottom:14px">
+              <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-muted);margin-bottom:6px"><span>Carbohydrates</span><span style="color:var(--text-main);font-weight:700">180g / 220g</span></div>
+              <div class="progress-track"><div class="progress-fill fill-orange" style="width:82%"></div></div>
+            </div>
+            <div style="margin-bottom:14px">
+              <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-muted);margin-bottom:6px"><span>Protein</span><span style="color:var(--text-main);font-weight:700">52g / 60g</span></div>
+              <div class="progress-track"><div class="progress-fill fill-green" style="width:87%"></div></div>
+            </div>
+            <div style="margin-bottom:14px">
+              <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-muted);margin-bottom:6px"><span>Healthy Fats</span><span style="color:var(--text-main);font-weight:700">28g / 40g</span></div>
+              <div class="progress-track"><div class="progress-fill fill-blue" style="width:70%"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-muted);margin-bottom:6px"><span>Calories</span><span style="color:var(--text-main);font-weight:700">1,420 / 1,800 kcal</span></div>
+              <div class="progress-track"><div class="progress-fill fill-red" style="width:79%"></div></div>
+            </div>
+            <div class="divider"></div>
+            <div class="alert info" style="margin-bottom:0"><span class="alert-icon">💡</span><div>Increase protein: add <strong>paneer</strong> or <strong>curd</strong> to dinner.</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">📅 Today's Full Meal Plan</div></div>
+          <div class="card-body">
+            <div style="border-left:3px solid var(--warning);padding-left:12px;margin-bottom:16px">
+              <div style="font-weight:700;color:var(--warning);font-size:13px">🌅 Breakfast (7:30–8:30 AM)</div>
+              <div style="font-size:13px;color:var(--text-main);margin-top:6px">Oats porridge • 2 Idlis with low-salt sambar • Low-fat milk • 5 almonds</div>
+              <div style="font-size:11px;color:var(--text-dim);margin-top:4px">~380 kcal · Protein: 14g · Carbs: 55g</div>
+            </div>
+            <div style="border-left:3px solid var(--accent);padding-left:12px;margin-bottom:16px">
+              <div style="font-weight:700;color:var(--accent);font-size:13px">☀️ Lunch (12:30–1:30 PM)</div>
+              <div style="font-size:13px;color:var(--text-main);margin-top:6px">Brown rice (1 cup) • Palak dal • Cucumber-tomato salad • Buttermilk</div>
+              <div style="font-size:11px;color:var(--text-dim);margin-top:4px">~520 kcal · Protein: 20g · Carbs: 78g</div>
+            </div>
+            <div style="border-left:3px solid var(--text-dim);padding-left:12px;margin-bottom:16px">
+              <div style="font-weight:700;color:var(--text-muted);font-size:13px">🌤 Evening Snack (4:30 PM)</div>
+              <div style="font-size:13px;color:var(--text-main);margin-top:6px">1 cup green tea (no sugar) • Handful of peanuts or roasted chana</div>
+              <div style="font-size:11px;color:var(--text-dim);margin-top:4px">~120 kcal · Protein: 5g · Carbs: 10g</div>
+            </div>
+            <div style="border-left:3px solid var(--secondary);padding-left:12px">
+              <div style="font-weight:700;color:var(--secondary);font-size:13px">🌙 Dinner (8:00–9:00 PM)</div>
+              <div style="font-size:13px;color:var(--text-main);margin-top:6px">2 wheat chapatis • Mixed veg sabzi • Low-fat curd • 1 small apple</div>
+              <div style="font-size:11px;color:var(--text-dim);margin-top:4px">~400 kcal · Protein: 13g · Carbs: 37g</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">🚫 Foods to Avoid (Your Conditions)</div></div>
+        <div class="card-body">
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+            <div style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px;padding:12px"><div style="font-weight:700;color:var(--danger);font-size:13px">🧂 High Salt Foods</div><div style="font-size:12px;color:var(--text-muted);margin-top:4px">Pickles, Papad, Processed foods, Chips</div></div>
+            <div style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px;padding:12px"><div style="font-weight:700;color:var(--danger);font-size:13px">🍬 High Sugar Foods</div><div style="font-size:12px;color:var(--text-muted);margin-top:4px">White rice (large qty), Sweets, Fruit juices, Soda</div></div>
+            <div style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px;padding:12px"><div style="font-weight:700;color:var(--danger);font-size:13px">🧈 Saturated Fats</div><div style="font-size:12px;color:var(--text-muted);margin-top:4px">Ghee (excess), Fried foods, Full-fat dairy</div></div>
+            <div style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:10px;padding:12px"><div style="font-weight:700;color:var(--warning);font-size:13px">⚠ With Amlodipine</div><div style="font-size:12px;color:var(--text-muted);margin-top:4px">Avoid grapefruit juice — increases drug absorption</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================
+         4. VITALS PAGE
+         ====================================================== -->
+    <div class="page-section fade-in" id="page-vitals">
+      <div class="vitals-grid" style="margin-bottom:20px">
+        <div class="vital-card">
+          <div class="vital-icon">🩺</div>
+          <div class="vital-val">142</div>
+          <div class="vital-unit">/ 88 mmHg</div>
+          <div class="vital-label">Blood Pressure</div>
+          <div class="vital-status high">⬆ Above target (130/80)</div>
+        </div>
+        <div class="vital-card">
+          <div class="vital-icon">🩸</div>
+          <div class="vital-val">130</div>
+          <div class="vital-unit">mg/dL (Fasting)</div>
+          <div class="vital-label">Blood Sugar</div>
+          <div class="vital-status high">⬆ Slightly high (target &lt;126)</div>
+        </div>
+        <div class="vital-card">
+          <div class="vital-icon">❤️</div>
+          <div class="vital-val">78</div>
+          <div class="vital-unit">bpm</div>
+          <div class="vital-label">Heart Rate</div>
+          <div class="vital-status normal">✓ Normal (60–100)</div>
+        </div>
+        <div class="vital-card">
+          <div class="vital-icon">⚖️</div>
+          <div class="vital-val">68</div>
+          <div class="vital-unit">kg</div>
+          <div class="vital-label">Body Weight</div>
+          <div class="vital-status normal">✓ BMI 24.8 — Healthy</div>
+        </div>
+        <div class="vital-card">
+          <div class="vital-icon">🫁</div>
+          <div class="vital-val">97</div>
+          <div class="vital-unit">%</div>
+          <div class="vital-label">Blood Oxygen (SpO2)</div>
+          <div class="vital-status normal">✓ Normal (≥95%)</div>
+        </div>
+        <div class="vital-card">
+          <div class="vital-icon">🌡️</div>
+          <div class="vital-val">36.8</div>
+          <div class="vital-unit">°C</div>
+          <div class="vital-label">Body Temperature</div>
+          <div class="vital-status normal">✓ Normal (36–37.5°C)</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">➕ Log Today's Vitals</div></div>
+        <div class="card-body">
+          <div class="form-row-3">
+            <div class="form-group">
+              <label class="form-label">Blood Pressure (Systolic)</label>
+              <input class="form-input" type="number" placeholder="e.g. 130" id="v-bp-sys">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Blood Pressure (Diastolic)</label>
+              <input class="form-input" type="number" placeholder="e.g. 80" id="v-bp-dia">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Blood Sugar (mg/dL)</label>
+              <input class="form-input" type="number" placeholder="e.g. 115" id="v-sugar">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Heart Rate (bpm)</label>
+              <input class="form-input" type="number" placeholder="e.g. 75" id="v-hr">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Weight (kg)</label>
+              <input class="form-input" type="number" placeholder="e.g. 68" id="v-weight">
+            </div>
+            <div class="form-group">
+              <label class="form-label">SpO2 (%)</label>
+              <input class="form-input" type="number" placeholder="e.g. 97" id="v-spo2">
+            </div>
+          </div>
+          <button class="btn btn-success" onclick="logVitals()">📈 Log Vitals</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================
+         5. MEDICINE INVENTORY
+         ====================================================== -->
+    <div class="page-section fade-in" id="page-inventory">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">📦 Medicine Inventory</div>
+          <button class="btn btn-primary btn-sm" onclick="showToast('📋 Refill reminder sent to caregiver!','success')">📋 Request Refill</button>
+        </div>
+        <div class="card-body">
+          <div class="inv-row">
+            <div class="inv-pill" style="background:rgba(239,68,68,0.15)">🔴</div>
+            <div class="inv-info">
+              <div class="inv-name">Amlodipine 5mg</div>
+              <div class="inv-detail">Prescribed by Dr. Meera Sharma · Refill every 30 days</div>
+              <div class="inv-bar"><div class="progress-track" style="height:6px;margin-top:6px"><div class="progress-fill fill-red" style="width:17%"></div></div></div>
+            </div>
+            <div class="inv-count"><div class="inv-num low">5</div><div class="inv-label">tablets</div></div>
+          </div>
+          <div class="inv-row">
+            <div class="inv-pill" style="background:rgba(14,165,233,0.15)">🔵</div>
+            <div class="inv-info">
+              <div class="inv-name">Metformin 500mg</div>
+              <div class="inv-detail">Prescribed by Dr. Meera Sharma · Refill every 30 days</div>
+              <div class="inv-bar"><div class="progress-track" style="height:6px;margin-top:6px"><div class="progress-fill fill-green" style="width:93%"></div></div></div>
+            </div>
+            <div class="inv-count"><div class="inv-num ok">28</div><div class="inv-label">tablets</div></div>
+          </div>
+          <div class="inv-row">
+            <div class="inv-pill" style="background:rgba(168,85,247,0.15)">🟣</div>
+            <div class="inv-info">
+              <div class="inv-name">Atorvastatin 10mg</div>
+              <div class="inv-detail">Prescribed by Dr. Meera Sharma · Refill every 30 days</div>
+              <div class="inv-bar"><div class="progress-track" style="height:6px;margin-top:6px"><div class="progress-fill fill-orange" style="width:40%"></div></div></div>
+            </div>
+            <div class="inv-count"><div class="inv-num medium">12</div><div class="inv-label">tablets</div></div>
+          </div>
+          <div class="inv-row">
+            <div class="inv-pill" style="background:rgba(34,197,94,0.15)">🟢</div>
+            <div class="inv-info">
+              <div class="inv-name">Aspirin 75mg</div>
+              <div class="inv-detail">Prescribed by Dr. Meera Sharma · Refill every 30 days</div>
+              <div class="inv-bar"><div class="progress-track" style="height:6px;margin-top:6px"><div class="progress-fill fill-green" style="width:77%"></div></div></div>
+            </div>
+            <div class="inv-count"><div class="inv-num ok">23</div><div class="inv-label">tablets</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================
+         6. APPOINTMENTS
+         ====================================================== -->
+    <div class="page-section fade-in" id="page-appointments">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">📅 Upcoming Appointments</div>
+          <button class="btn btn-primary btn-sm" onclick="addAppt()">+ Add Appointment</button>
+        </div>
+        <div class="card-body p0">
+          <div class="appt-row">
+            <div class="appt-date"><div class="appt-day">25</div><div class="appt-month">Nov</div></div>
+            <div class="appt-info">
+              <div class="appt-name">Dr. Meera Sharma — Cardiologist</div>
+              <div class="appt-spec">Follow-up for Blood Pressure · KIMS Hospital, Hyderabad</div>
+              <div class="appt-time">⏰ 10:30 AM</div>
+            </div>
+            <span class="badge badge-orange">4 days</span>
+          </div>
+          <div class="appt-row">
+            <div class="appt-date"><div class="appt-day">02</div><div class="appt-month">Dec</div></div>
+            <div class="appt-info">
+              <div class="appt-name">Dr. Suresh Patel — Endocrinologist</div>
+              <div class="appt-spec">HbA1c + Diabetes Review · Care Hospital, Hyderabad</div>
+              <div class="appt-time">⏰ 11:00 AM</div>
+            </div>
+            <span class="badge badge-blue">11 days</span>
+          </div>
+          <div class="appt-row">
+            <div class="appt-date"><div class="appt-day">10</div><div class="appt-month">Dec</div></div>
+            <div class="appt-info">
+              <div class="appt-name">Blood Test Lab — Fasting</div>
+              <div class="appt-spec">Lipid Profile + HbA1c + LFT · Thyrocare Lab</div>
+              <div class="appt-time">⏰ 7:00 AM (Fasting required)</div>
+            </div>
+            <span class="badge badge-blue">19 days</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================
+         7. DOSE HISTORY
+         ====================================================== -->
+    <div class="page-section fade-in" id="page-history">
+      <div class="card">
+        <div class="card-header"><div class="card-title">📋 7-Day Dose History</div><button class="btn btn-ghost btn-sm" onclick="showToast('📤 Report exported as PDF','success')">📤 Export PDF</button></div>
+        <div class="card-body p0">
+          <table class="data-table">
+            <thead><tr><th>Date</th><th>Medicine</th><th>Dose</th><th>Scheduled</th><th>Taken At</th><th>Status</th></tr></thead>
+            <tbody id="history-table">
+              <tr><td>Today</td><td>Aspirin 75mg</td><td>1 Tab</td><td>9:00 PM</td><td>8:50 PM</td><td><span class="badge badge-green">✅ On Time</span></td></tr>
+              <tr><td>Today</td><td>Metformin 500mg</td><td>1 Tab</td><td>8:30 AM</td><td>8:45 AM</td><td><span class="badge badge-green">✅ On Time</span></td></tr>
+              <tr><td>Today</td><td>Amlodipine 5mg</td><td>1 Tab</td><td>8:00 AM</td><td>—</td><td><span class="badge badge-red">❌ Missed</span></td></tr>
+              <tr><td>Yesterday</td><td>All Medicines</td><td>All</td><td>All times</td><td>On schedule</td><td><span class="badge badge-green">✅ 100%</span></td></tr>
+              <tr><td>19 Nov</td><td>Amlodipine 5mg</td><td>1 Tab</td><td>8:00 AM</td><td>9:15 AM</td><td><span class="badge badge-orange">⚠ Late</span></td></tr>
+              <tr><td>18 Nov</td><td>All Medicines</td><td>All</td><td>All times</td><td>On schedule</td><td><span class="badge badge-green">✅ 100%</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================
+         8. CAREGIVER DASHBOARD
+         ====================================================== -->
+    <div class="page-section fade-in" id="page-cg-dashboard">
+      <div class="stats-row">
+        <div class="stat-card red"><span class="stat-icon">🚨</span><div class="stat-num">1</div><div class="stat-label">Missed Today</div></div>
+        <div class="stat-card green"><span class="stat-icon">✅</span><div class="stat-num">2</div><div class="stat-label">Confirmed</div></div>
+        <div class="stat-card orange"><span class="stat-icon">⏳</span><div class="stat-num">3</div><div class="stat-label">Upcoming</div></div>
+        <div class="stat-card blue"><span class="stat-icon">📊</span><div class="stat-num">88%</div><div class="stat-label">7-Day Rate</div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">👴 Patient Overview</div></div>
+          <div class="card-body">
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+              <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--primary));display:flex;align-items:center;justify-content:center;font-size:26px">👴</div>
+              <div>
+                <div style="font-size:18px;font-weight:800">Ramesh Chandra, 72</div>
+                <div style="font-size:13px;color:var(--text-muted)">📍 Hyderabad · +91 9876543210</div>
+              </div>
+            </div>
+            <div class="chip-row">
+              <div class="chip c-red active">❤️ Hypertension</div>
+              <div class="chip c-blue active">🍬 Diabetes (T2)</div>
+              <div class="chip c-orange active">🧂 Low Salt</div>
+              <div class="chip c-green active">🥗 Vegetarian</div>
+            </div>
+            <div class="divider"></div>
+            <div class="alert danger" style="margin-bottom:0"><span class="alert-icon">🚨</span><div><strong>Alert:</strong> Morning Amlodipine MISSED. SMS sent to emergency contact.</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">📋 Live Adherence Today</div></div>
+          <div class="card-body p0">
+            <div class="notif-item"><div class="notif-dot red"></div><div><div class="notif-text">Amlodipine 5mg — Morning (8:00 AM) — <strong>MISSED</strong></div><div class="notif-time">Alert sent at 8:30 AM</div></div></div>
+            <div class="notif-item"><div class="notif-dot green"></div><div><div class="notif-text">Metformin 500mg — Morning — Taken at 8:45 AM</div><div class="notif-time">Confirmed by patient</div></div></div>
+            <div class="notif-item"><div class="notif-dot green"></div><div><div class="notif-text">Aspirin 75mg — Night — Taken at 8:50 PM</div><div class="notif-time">Confirmed by patient</div></div></div>
+            <div class="notif-item"><div class="notif-dot orange"></div><div><div class="notif-text">Metformin 500mg — Afternoon — Pending (1:00 PM)</div><div class="notif-time">Reminder scheduled</div></div></div>
+            <div class="notif-item"><div class="notif-dot orange"></div><div><div class="notif-text">Atorvastatin + Amlodipine — Night — Pending (9:00 PM)</div><div class="notif-time">Reminder scheduled</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================
+         9. PRESCRIPTIONS
+         ====================================================== -->
+    <div class="page-section fade-in" id="page-prescriptions">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">💊 Active Prescriptions</div>
+          <button class="btn btn-primary btn-sm" onclick="document.getElementById('add-presc-form').style.display=document.getElementById('add-presc-form').style.display==='none'?'block':'none'">+ Add Medicine</button>
+        </div>
+        <div class="card-body">
+          <!-- Add form -->
+          <div id="add-presc-form" style="display:none;background:var(--bg-card2);border:1px solid var(--border-light);border-radius:12px;padding:18px;margin-bottom:16px">
+            <div style="font-weight:700;font-size:14px;color:var(--primary);margin-bottom:12px">➕ Add New Prescription</div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Medicine Name *</label><input class="form-input" id="nm-name" placeholder="e.g. Ramipril 5mg"></div>
+              <div class="form-group"><label class="form-label">Dosage</label><input class="form-input" id="nm-dose" placeholder="e.g. 1 Tablet"></div>
+            </div>
+            <div class="form-row-3">
+              <div class="form-group"><label class="form-label">Condition</label><input class="form-input" id="nm-cond" placeholder="e.g. Blood Pressure"></div>
+              <div class="form-group"><label class="form-label">Time of Day</label><select class="form-select" id="nm-time"><option>Morning</option><option>Afternoon</option><option>Night</option><option>Morning + Night</option><option>All Three</option></select></div>
+              <div class="form-group"><label class="form-label">Meal Timing</label><select class="form-select" id="nm-meal"><option>After Food</option><option>Before Food</option><option>With Water</option></select></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Pill Color</label><select class="form-select" id="nm-color"><option>White</option><option>Red</option><option>Blue</option><option>Green</option><option>Yellow</option><option>Purple</option><option>Orange</option></select></div>
+              <div class="form-group"><label class="form-label">Pill Shape</label><select class="form-select" id="nm-shape"><option>Round</option><option>Oval</option><option>Capsule</option><option>Oblong</option></select></div>
+            </div>
+            <div style="display:flex;gap:10px"><button class="btn btn-primary" onclick="addPrescript()">💾 Add Prescription</button><button class="btn btn-ghost" onclick="document.getElementById('add-presc-form').style.display='none'">Cancel</button></div>
+          </div>
+          <!-- Prescriptions table -->
+          <table class="data-table">
+            <thead><tr><th>Medicine</th><th>Dosage</th><th>Schedule</th><th>Meal</th><th>Condition</th><th>Visual ID</th><th>Action</th></tr></thead>
+            <tbody id="presc-table">
+              <tr><td><strong>Amlodipine 5mg</strong></td><td>1 Tablet</td><td>Morning + Night</td><td>After Food</td><td>Hypertension</td><td>🔴 Round, Red</td><td><button class="btn btn-danger btn-xs" onclick="this.closest('tr').remove();showToast('🗑 Removed Amlodipine','warning')">Remove</button></td></tr>
+              <tr><td><strong>Metformin 500mg</strong></td><td>1 Tablet</td><td>Morning + Afternoon</td><td>After Food Only</td><td>Diabetes (T2)</td><td>🔵 Oval, Blue</td><td><button class="btn btn-danger btn-xs" onclick="this.closest('tr').remove();showToast('🗑 Removed Metformin','warning')">Remove</button></td></tr>
+              <tr><td><strong>Atorvastatin 10mg</strong></td><td>1 Tablet</td><td>Night</td><td>After Dinner</td><td>Cholesterol</td><td>🟣 Round, Purple</td><td><button class="btn btn-danger btn-xs" onclick="this.closest('tr').remove();showToast('🗑 Removed Atorvastatin','warning')">Remove</button></td></tr>
+              <tr><td><strong>Aspirin 75mg</strong></td><td>1 Tablet</td><td>Night</td><td>After Dinner</td><td>Heart Protection</td><td>🟢 Round, White</td><td><button class="btn btn-danger btn-xs" onclick="this.closest('tr').remove();showToast('🗑 Removed Aspirin','warning')">Remove</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================
+         10. ADHERENCE LOG (Caregiver)
+         ====================================================== -->
+    <div class="page-section fade-in" id="page-adherence">
+      <div class="card">
+        <div class="card-header"><div class="card-title">📋 Full Adherence Log</div><button class="btn btn-success btn-sm" onclick="showToast('📤 Sent to Dr. Meera Sharma','success')">📤 Send to Doctor</button></div>
+        <div class="card-body p0">
+          <table class="data-table">
+            <thead><tr><th>Medicine</th><th>Period</th><th>Scheduled</th><th>Status</th><th>Time</th><th>Note</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Amlodipine 5mg</strong></td><td>Morning</td><td>8:00 AM</td><td><span class="badge badge-red">❌ Missed</span></td><td>—</td><td>SMS alert sent</td></tr>
+              <tr><td><strong>Metformin 500mg</strong></td><td>Morning</td><td>8:30 AM</td><td><span class="badge badge-green">✅ Taken</span></td><td>8:45 AM</td><td>On time</td></tr>
+              <tr><td><strong>Aspirin 75mg</strong></td><td>Night</td><td>9:00 PM</td><td><span class="badge badge-green">✅ Taken</span></td><td>8:50 PM</td><td>Slightly early</td></tr>
+              <tr><td><strong>Metformin 500mg</strong></td><td>Afternoon</td><td>1:00 PM</td><td><span class="badge badge-gray">⏳ Pending</span></td><td>—</td><td>Reminder set</td></tr>
+              <tr><td><strong>Atorvastatin 10mg</strong></td><td>Night</td><td>9:00 PM</td><td><span class="badge badge-gray">⏳ Pending</span></td><td>—</td><td>Reminder set</td></tr>
+              <tr><td><strong>Amlodipine 5mg</strong></td><td>Night</td><td>9:00 PM</td><td><span class="badge badge-gray">⏳ Pending</span></td><td>—</td><td>Reminder set</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================
+         11. ALARM SETTINGS
+         ====================================================== -->
+    <div class="page-section fade-in" id="page-alarms">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">⏰ Alarm Schedule</div><button class="btn btn-primary btn-sm" onclick="triggerAlarm('morning')">🔔 Test Now</button></div>
+          <div class="card-body">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div style="background:var(--bg-card2);border:1px solid var(--border-light);border-radius:12px;padding:14px;border-left:4px solid var(--warning)">
+                <div style="font-weight:700;color:var(--warning);margin-bottom:8px">🌅 Morning Alarm</div>
+                <input type="time" value="08:00" class="form-input">
+                <div style="font-size:12px;color:var(--text-muted);margin-top:8px">🔊 Audio chime + 🗣 Voice reminder + 📱 App notification</div>
+              </div>
+              <div style="background:var(--bg-card2);border:1px solid var(--border-light);border-radius:12px;padding:14px;border-left:4px solid var(--accent)">
+                <div style="font-weight:700;color:var(--accent);margin-bottom:8px">☀️ Afternoon Alarm</div>
+                <input type="time" value="13:00" class="form-input">
+                <div style="font-size:12px;color:var(--text-muted);margin-top:8px">🔊 Audio chime + 🗣 Voice reminder + 📱 App notification</div>
+              </div>
+              <div style="background:var(--bg-card2);border:1px solid var(--border-light);border-radius:12px;padding:14px;border-left:4px solid var(--secondary)">
+                <div style="font-weight:700;color:var(--secondary);margin-bottom:8px">🌙 Night Alarm</div>
+                <input type="time" value="21:00" class="form-input">
+                <div style="font-size:12px;color:var(--text-muted);margin-top:8px">🔊 Audio chime + 🗣 Voice reminder + 📱 App notification</div>
+              </div>
+              <div style="background:var(--bg-card2);border:1px solid var(--border-light);border-radius:12px;padding:14px;border-left:4px solid var(--danger)">
+                <div style="font-weight:700;color:var(--danger);margin-bottom:8px">🚨 Missed Dose Alert</div>
+                <select class="form-select" style="margin-bottom:8px"><option>+30 minutes after missed dose</option><option>+15 minutes</option><option>+45 minutes</option><option>+60 minutes</option></select>
+                <div style="font-size:12px;color:var(--text-muted)">📱 SMS to caregiver + Push notification</div>
+              </div>
+            </div>
+            <div style="margin-top:16px"><button class="btn btn-primary btn-full" onclick="showToast('⏰ Alarm schedule saved!','success')">💾 Save Alarm Settings</button></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">🔊 Voice & Audio Settings</div></div>
+          <div class="card-body">
+            <div class="form-group"><label class="form-label">Voice Language</label><select class="form-select"><option>English (India)</option><option>Hindi</option><option>Telugu</option><option>Tamil</option></select></div>
+            <div class="form-group"><label class="form-label">Speaking Rate</label><select class="form-select"><option>Slow (Elderly-Friendly)</option><option>Normal</option><option>Fast</option></select></div>
+            <div class="form-group"><label class="form-label">Alarm Ringtone</label><select class="form-select"><option>Gentle Chime (Default)</option><option>Bell</option><option>Traditional Indian</option><option>Beep</option></select></div>
+            <div class="form-group"><label class="form-label">Volume</label><input type="range" min="0" max="100" value="80" style="width:100%;accent-color:var(--primary)"></div>
+            <div class="divider"></div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <button class="btn btn-primary" onclick="triggerAlarm('morning')">🔔 Test Morning Alarm</button>
+              <button class="btn btn-ghost" onclick="triggerAlarm('afternoon')">🔔 Test Afternoon Alarm</button>
+              <button class="btn btn-ghost" onclick="triggerAlarm('night')">🔔 Test Night Alarm</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================
+         12. PATIENT SETUP (Caregiver)
+         ====================================================== -->
+    <div class="page-section fade-in" id="page-patient-setup">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">🧑 Patient Profile</div></div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">First Name</label><input class="form-input" value="Ramesh"></div>
+              <div class="form-group"><label class="form-label">Last Name</label><input class="form-input" value="Chandra"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Age</label><input class="form-input" type="number" value="72"></div>
+              <div class="form-group"><label class="form-label">Gender</label><select class="form-select"><option>Male</option><option>Female</option></select></div>
+            </div>
+            <div class="form-group"><label class="form-label">Address</label><input class="form-input" value="Hyderabad, Telangana, India"></div>
+            <div class="form-group"><label class="form-label">Emergency Contact</label><input class="form-input" value="+91 98765 43210"></div>
+            <div class="form-group"><label class="form-label">Health Conditions</label>
+              <div class="chip-row" style="margin-top:6px">
+                <div class="chip c-red active" onclick="this.classList.toggle('active')">❤️ Hypertension</div>
+                <div class="chip c-blue active" onclick="this.classList.toggle('active')">🍬 Diabetes (T2)</div>
+                <div class="chip c-purple" onclick="this.classList.toggle('active')">💙 Cardiac Care</div>
+                <div class="chip c-orange" onclick="this.classList.toggle('active')">🦴 Arthritis</div>
+              </div>
+            </div>
+            <div class="form-group"><label class="form-label">Dietary Restrictions</label>
+              <div class="chip-row" style="margin-top:6px">
+                <div class="chip c-orange active" onclick="this.classList.toggle('active')">🧂 Low Salt</div>
+                <div class="chip c-green active" onclick="this.classList.toggle('active')">🥗 Vegetarian</div>
+                <div class="chip c-blue" onclick="this.classList.toggle('active')">🌾 Gluten Free</div>
+              </div>
+            </div>
+            <button class="btn btn-primary btn-full" onclick="showToast('✅ Patient profile saved!','success')">💾 Save Profile</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">👨‍⚕️ Caregiver Details</div></div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Your Name</label><input class="form-input" value="Dr. Suresh Patel"></div>
+              <div class="form-group"><label class="form-label">Relationship</label><select class="form-select"><option>Grandson/Granddaughter</option><option>Son/Daughter</option><option>Doctor</option><option>Nurse</option><option>Other</option></select></div>
+            </div>
+            <div class="form-group"><label class="form-label">Your Phone</label><input class="form-input" value="+91 87654 32100"></div>
+            <div class="form-group"><label class="form-label">Your Email</label><input class="form-input" type="email" value="suresh.patel@kims.com"></div>
+            <div class="form-group"><label class="form-label">Preferred Alert Method</label>
+              <select class="form-select">
+                <option>SMS + App Notification</option>
+                <option>App Notification Only</option>
+                <option>SMS Only</option>
+                <option>Email + SMS</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">Alert me if patient misses more than</label>
+              <select class="form-select">
+                <option>1 dose</option><option>2 consecutive doses</option><option>3 doses in a day</option>
+              </select>
+            </div>
+            <button class="btn btn-success btn-full" onclick="showToast('✅ Caregiver profile saved!','success')">💾 Save Caregiver Settings</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================
+         13. NOTIFICATIONS
+         ====================================================== -->
+    <div class="page-section fade-in" id="page-notifications">
+      <div class="card">
+        <div class="card-header"><div class="card-title">🔔 Notification Center</div><button class="btn btn-ghost btn-sm" onclick="showToast('✅ All notifications cleared','info')">Clear All</button></div>
+        <div class="card-body p0">
+          <div class="notif-item"><div class="notif-dot red"></div><div style="flex:1"><div class="notif-text"><strong>🚨 Missed Dose:</strong> Amlodipine 5mg (Morning) was not taken. Please take it now.</div><div class="notif-time">Today, 8:30 AM</div></div><span class="badge badge-red">Urgent</span></div>
+          <div class="notif-item"><div class="notif-dot green"></div><div style="flex:1"><div class="notif-text">✅ Metformin 500mg confirmed taken (Morning dose)</div><div class="notif-time">Today, 8:45 AM</div></div></div>
+          <div class="notif-item"><div class="notif-dot orange"></div><div style="flex:1"><div class="notif-text">⚠ Medicine stock low: Amlodipine 5mg — only 5 tablets remaining. Order refill.</div><div class="notif-time">Today, 9:00 AM</div></div><span class="badge badge-orange">Stock Alert</span></div>
+          <div class="notif-item"><div class="notif-dot blue"></div><div style="flex:1"><div class="notif-text">📅 Reminder: Dr. Meera Sharma appointment in 4 days (Nov 25, 10:30 AM)</div><div class="notif-time">Today, 10:00 AM</div></div></div>
+          <div class="notif-item"><div class="notif-dot green"></div><div style="flex:1"><div class="notif-text">✅ Aspirin 75mg confirmed taken (Night dose)</div><div class="notif-time">Yesterday, 8:50 PM</div></div></div>
+          <div class="notif-item"><div class="notif-dot blue"></div><div style="flex:1"><div class="notif-text">📊 Weekly Report Ready: 7-day adherence at 88.9%. Tap to view full report.</div><div class="notif-time">Monday, 9:00 AM</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================
+         14. REPORTS
+         ====================================================== -->
+    <div class="page-section fade-in" id="page-reports">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">📤 Generate Reports</div></div>
+          <div class="card-body">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <button class="btn btn-primary btn-full" onclick="showToast('📋 7-day PDF report generated!','success')">📋 7-Day Adherence Report (PDF)</button>
+              <button class="btn btn-ghost btn-full" onclick="showToast('📊 Monthly summary sent!','success')">📊 Monthly Summary Report</button>
+              <button class="btn btn-ghost btn-full" onclick="showToast('🩺 Vitals report exported!','success')">🩺 Vitals History Export (CSV)</button>
+              <button class="btn btn-success btn-full" onclick="showToast('📤 Report sent to Dr. Meera Sharma','success')">📤 Send Report to Doctor</button>
+            </div>
+            <div class="divider"></div>
+            <div class="alert info"><span class="alert-icon">💡</span><div>Share reports directly with your doctor before each appointment for a productive visit.</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">📊 Summary Statistics</div></div>
+          <div class="card-body">
+            <div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="color:var(--text-muted)">This Week</span><span style="font-weight:700">88.9%</span></div><div class="progress-track"><div class="progress-fill fill-green" style="width:88.9%"></div></div></div>
+            <div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="color:var(--text-muted)">This Month</span><span style="font-weight:700">82.3%</span></div><div class="progress-track"><div class="progress-fill fill-blue" style="width:82.3%"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="color:var(--text-muted)">3-Month Average</span><span style="font-weight:700">79.1%</span></div><div class="progress-track"><div class="progress-fill fill-orange" style="width:79.1%"></div></div></div>
+            <div class="divider"></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:center">
+              <div style="background:var(--bg-card2);border-radius:10px;padding:12px"><div style="font-size:22px;font-weight:800;color:var(--success)">42</div><div style="font-size:11px;color:var(--text-muted)">Total Taken</div></div>
+              <div style="background:var(--bg-card2);border-radius:10px;padding:12px"><div style="font-size:22px;font-weight:800;color:var(--danger)">9</div><div style="font-size:11px;color:var(--text-muted)">Total Missed</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end page-content -->
+</div><!-- end main-wrapper -->
+
+<!-- ============================================================
+     ALARM MODAL
+     ============================================================ -->
+<div class="overlay" id="alarm-overlay">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="big-icon" id="modal-icon">⏰</span>
+      <h2 id="modal-title">Time to Take Medicines!</h2>
+      <p id="modal-subtitle">Morning Dose — 8:00 AM</p>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-foot">
+      <button class="modal-btn snooze" id="modal-snooze" onclick="snoozeAlarm()">⏱ Snooze 10 min</button>
+      <button class="modal-btn confirm" id="modal-confirm" onclick="confirmAlarm()">✅ All Taken!</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<!-- FLOATING ALARM BTN -->
+<button class="fab" id="fab" onclick="triggerAlarm('morning')" title="Test Alarm">🔔</button>
+
+<!-- ============================================================
+     JAVASCRIPT — FULL BACKEND STATE + LOCALSTORAGE
+     ============================================================ -->
+<script>
+// ===== DATABASE / STATE =====
+const DB = {
+  takenDoses: new Set(['aspirin-n']),
+  eatenMeals: new Set(),
+  currentRole: 'patient',
+  currentPage: 'dashboard',
+  totalDoses: 6,
+  get taken() { return this.takenDoses.size; },
+  missed: 1,
+  get pending() { return Math.max(0, this.totalDoses - this.taken - this.missed); },
+  get adherencePct() { return Math.round((this.taken / this.totalDoses) * 100); }
+};
+
+// Load from localStorage
+try {
+  const saved = JSON.parse(localStorage.getItem('medimate-state') || '{}');
+  if (saved.taken) saved.taken.forEach(id => DB.takenDoses.add(id));
+  if (saved.meals) saved.meals.forEach(m => DB.eatenMeals.add(m));
+} catch(e) {}
+
+function saveState() {
+  try {
+    localStorage.setItem('medimate-state', JSON.stringify({
+      taken: [...DB.takenDoses],
+      meals: [...DB.eatenMeals],
+      date: new Date().toDateString()
+    }));
+  } catch(e) {}
+}
+
+// ===== CLOCK =====
+function tickClock() {
+  const now = new Date();
+  const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const hh = ((h % 12) || 12).toString().padStart(2, '0');
+  const mm = m.toString().padStart(2, '0');
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const te = document.getElementById('live-time');
+  const de = document.getElementById('live-date');
+  if (te) te.textContent = `${hh}:${mm} ${ampm}`;
+  if (de) de.textContent = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+}
+setInterval(tickClock, 1000);
+tickClock();
+
+// ===== PAGE NAVIGATION =====
+const pageTitles = {
+  'dashboard': ['Dashboard', 'Good morning, Ramesh. Here is your health overview for today.'],
+  'today': ['Today\'s Medicines', 'Manage your morning, afternoon, and night doses.'],
+  'meals': ['Meal Plan', 'Personalized nutrition for Hypertension & Diabetes.'],
+  'vitals': ['My Vitals', 'Track blood pressure, blood sugar, and more.'],
+  'inventory': ['Medicine Stock', 'Monitor your tablet counts and request refills.'],
+  'appointments': ['Appointments', 'Upcoming doctor visits and lab tests.'],
+  'history': ['Dose History', '7-day medication adherence history.'],
+  'cg-dashboard': ['Caregiver Dashboard', 'Monitoring patient adherence and health status.'],
+  'prescriptions': ['Prescription Manager', 'Add and manage active prescriptions.'],
+  'adherence': ['Adherence Log', 'Full daily adherence breakdown.'],
+  'alarms': ['Alarm Settings', 'Configure dose reminders and voice alerts.'],
+  'patient-setup': ['Patient Setup', 'Configure patient profile and health conditions.'],
+  'notifications': ['Notifications', 'View all alerts and system messages.'],
+  'reports': ['Reports', 'Generate and share health reports.']
+};
+
+function showPage(pageId) {
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  const target = document.getElementById('page-' + pageId);
+  if (target) { target.classList.add('active'); target.classList.remove('fade-in'); void target.offsetWidth; target.classList.add('fade-in'); }
+
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => { if (n.getAttribute('onclick') && n.getAttribute('onclick').includes("'"+pageId+"'")) n.classList.add('active'); });
+
+  const info = pageTitles[pageId] || [pageId, ''];
+  const tt = document.getElementById('page-title-text'); if(tt) tt.textContent = info[0];
+  const st = document.getElementById('page-subtitle-text'); if(st) st.textContent = info[1];
+  DB.currentPage = pageId;
+  window.scrollTo(0, 0);
+}
+
+// ===== ROLE SWITCHER =====
+function switchRole(role) {
+  DB.currentRole = role;
+  document.getElementById('tab-patient').classList.toggle('active', role === 'patient');
+  document.getElementById('tab-care').classList.toggle('active', role === 'caregiver');
+  document.getElementById('nav-patient').style.display = role === 'patient' ? 'block' : 'none';
+  document.getElementById('nav-caregiver').style.display = role === 'caregiver' ? 'block' : 'none';
+
+  if (role === 'patient') {
+    showPage('dashboard');
+    showToast('👴 Switched to Patient View', 'info');
+  } else {
+    showPage('cg-dashboard');
+    showToast('👨‍⚕️ Switched to Caregiver View', 'info');
+  }
+}
+
+// ===== PERIOD COLLAPSE =====
+function togglePeriod(bodyId) {
+  const el = document.getElementById(bodyId);
+  if (!el) return;
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+// ===== EAT MEAL =====
+function eatMeal(period) {
+  if (DB.eatenMeals.has(period)) {
+    showToast('⚠️ Already marked as eaten!', 'warning');
+    return;
+  }
+  DB.eatenMeals.add(period);
+  const btn = document.getElementById(`meal-${period}-btn`);
+  if (btn) { btn.className = 'meal-btn eaten'; btn.innerHTML = '✅ Meal Eaten & Confirmed!'; btn.disabled = true; }
+  showToast(`✅ ${period.charAt(0).toUpperCase()+period.slice(1)} meal confirmed!`, 'success');
+  speakText(`${period} meal confirmed. Well done! You can now take your medicines.`);
+  saveState();
+}
+
+// ===== TAKE DOSE =====
+function takeDose(id, name) {
+  if (DB.takenDoses.has(id)) {
+    doubleDoseWarning(name);
+    return;
+  }
+  DB.takenDoses.add(id);
+  const card = document.getElementById(`card-${id}`);
+  if (card) { card.classList.remove('overdue'); card.classList.add('taken'); }
+  const btn = document.getElementById(`btn-${id}`);
+  if (btn) { btn.className = 'dose-btn taken-st'; btn.textContent = '✅ Taken'; btn.disabled = true; }
+
+  // Update IoT
+  const iotMap = { 'amlodipine-m':'A', 'metformin-m':'B', 'metformin-a':'B', 'atorva-n':'C', 'amlodipine-n':'A', 'aspirin-n':'D' };
+  if (iotMap[id]) updateIoT(iotMap[id], 'ok', '✅ Taken now');
+
+  // Update adherence row
+  const adhRow = document.getElementById('adh-' + id);
+  if (adhRow) { adhRow.className = 'notif-item'; adhRow.querySelector('.notif-dot').className = 'notif-dot green'; }
+
+  updateStats();
+  showToast(`✅ ${name} confirmed taken!`, 'success');
+  speakText(`${name} confirmed. Excellent work taking care of your health today!`);
+  saveState();
+
+  // Add to history table
+  const hRow = document.createElement('tr');
+  const now = new Date();
+  hRow.innerHTML = `<td>Today</td><td><strong>${name}</strong></td><td>1 Tab</td><td>Scheduled</td><td>${now.getHours()%12||12}:${String(now.getMinutes()).padStart(2,'0')} ${now.getHours()>=12?'PM':'AM'}</td><td><span class="badge badge-green">✅ Taken</span></td>`;
+  const ht = document.getElementById('history-table');
+  if (ht) ht.prepend(hRow);
+}
+
+// ===== DOUBLE DOSE =====
+function doubleDoseWarning(name) {
+  document.getElementById('modal-icon').textContent = '🚨';
+  document.getElementById('modal-title').textContent = 'Double-Dose Prevented!';
+  document.getElementById('modal-subtitle').textContent = 'Safety Lock is Active';
+  document.getElementById('modal-body').innerHTML = `
+    <div class="alert danger" style="margin-bottom:12px"><span class="alert-icon">⚠️</span><div><strong>${name}</strong> has already been taken. Taking it again could be harmful to your health.</div></div>
+    <div style="text-align:center;padding:14px;background:var(--bg-card2);border-radius:12px;border:1px solid var(--border-light)">
+      <div style="font-size:40px;margin-bottom:8px">🔒</div>
+      <div style="font-size:14px;color:var(--text-muted)">This safety lock prevents accidental double-dosing.<br>Dose confirmed earlier today.</div>
+    </div>`;
+  document.getElementById('modal-confirm').style.display = 'none';
+  document.getElementById('modal-snooze').textContent = '✖ Close';
+  document.getElementById('modal-snooze').onclick = closeModal;
+  document.getElementById('alarm-overlay').classList.add('open');
+  speakText(`Warning! ${name} has already been taken today. The safety lock has prevented a double dose. Please do not take it again. If unsure, contact your caregiver immediately.`);
+}
+
+// ===== UPDATE STATS =====
+function updateStats() {
+  const taken = DB.taken, missed = DB.missed;
+  const pending = Math.max(0, DB.totalDoses - taken - missed);
+  const pct = Math.round((taken / DB.totalDoses) * 100);
+  ['ds-total','ds-taken','ds-pending','ds-missed'].forEach((id,i) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = [DB.totalDoses, taken, pending, missed][i];
+  });
+  const badge = document.getElementById('badge-missed');
+  if (badge) badge.textContent = missed;
+}
+
+// ===== IOT =====
+function updateIoT(slot, status, statusText) {
+  const el = document.getElementById('iot-' + slot);
+  if (!el) return;
+  el.className = `iot-slot ${status}`;
+  const st = el.querySelector('.iot-slot-status');
+  if (st) st.textContent = statusText;
+}
+function simBox() {
+  updateIoT('A', 'ok', '✅ Lid opened');
+  showToast('📦 Smart Medicine Box: Slot A lid opened — take Amlodipine now!', 'info');
+  speakText('Smart medicine box slot A is now open. Please take your Amlodipine 5mg tablet.');
+  setTimeout(() => { updateIoT('A', 'ok', '✅ Taken'); }, 3000);
+}
+
+// ===== ALARM =====
+const alarmData = {
+  morning:   [{ name:'Amlodipine 5mg', dose:'1 Tablet', note:'After Breakfast · Blood Pressure', color:'rgba(239,68,68,0.3)' }, { name:'Metformin 500mg', dose:'1 Tablet', note:'After Breakfast · Diabetes', color:'rgba(14,165,233,0.3)' }],
+  afternoon: [{ name:'Metformin 500mg', dose:'1 Tablet', note:'After Lunch · Diabetes', color:'rgba(14,165,233,0.3)' }],
+  night:     [{ name:'Atorvastatin 10mg', dose:'1 Tablet', note:'After Dinner · Cholesterol', color:'rgba(168,85,247,0.3)' }, { name:'Amlodipine 5mg', dose:'1 Tablet', note:'After Dinner · Blood Pressure', color:'rgba(239,68,68,0.3)' }, { name:'Aspirin 75mg', dose:'1 Tablet', note:'After Dinner · Heart', color:'rgba(34,197,94,0.3)' }]
+};
+const periodLabels = { morning:'Morning Dose — 8:00 AM', afternoon:'Afternoon Dose — 1:00 PM', night:'Night Dose — 9:00 PM' };
+
+function triggerAlarm(period) {
+  const meds = alarmData[period] || alarmData.morning;
+  document.getElementById('modal-icon').textContent = '⏰';
+  document.getElementById('modal-title').textContent = 'Time to Take Your Medicines!';
+  document.getElementById('modal-subtitle').textContent = periodLabels[period] || 'Dose Reminder';
+  document.getElementById('modal-body').innerHTML = meds.map(m => `
+    <div class="med-remind-row">
+      <div style="width:40px;height:40px;border-radius:50%;background:${m.color};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">💊</div>
+      <div><div style="font-weight:700;font-size:14px">${m.name}</div><div style="font-size:12px;color:var(--text-muted)">${m.dose} · ${m.note}</div></div>
+    </div>`).join('');
+  document.getElementById('modal-confirm').style.display = '';
+  document.getElementById('modal-snooze').textContent = '⏱ Snooze 10 min';
+  document.getElementById('modal-snooze').onclick = snoozeAlarm;
+  document.getElementById('alarm-overlay').classList.add('open');
+  document.getElementById('fab').classList.add('ringing');
+  document.getElementById('alarm-fab-top').classList.add('alarm-active');
+  playChime();
+  const names = meds.map(m => m.name).join(', ');
+  speakText(`Medication reminder! It is time for your ${period} dose. Please take: ${names}. Total: ${meds.length} tablet${meds.length>1?'s':''}. Remember to eat your meal first.`);
+}
+
+function snoozeAlarm() {
+  closeModal();
+  showToast('⏱ Alarm snoozed for 10 minutes', 'info');
+  speakText('Alarm snoozed. You will be reminded again in 10 minutes. Please do not forget to take your medicine.');
+}
+function confirmAlarm() {
+  closeModal();
+  showToast('✅ All medicines confirmed as taken!', 'success');
+  speakText('Wonderful! All medicines have been confirmed. Great job taking care of your health today!');
+}
+function closeModal() {
+  document.getElementById('alarm-overlay').classList.remove('open');
+  document.getElementById('fab').classList.remove('ringing');
+}
+document.getElementById('alarm-overlay').addEventListener('click', e => { if (e.target === document.getElementById('alarm-overlay')) closeModal(); });
+
+// ===== CHIME =====
+let audioCtx = null;
+function playChime() {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const notes = [523,659,784,880,784,659,523,784,1047,880];
+    let t = audioCtx.currentTime;
+    notes.forEach((f, i) => {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.type = 'sine'; osc.frequency.value = f;
+      gain.gain.setValueAtTime(0, t + i*0.2);
+      gain.gain.linearRampToValueAtTime(0.4, t + i*0.2 + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + i*0.2 + 0.18);
+      osc.start(t + i*0.2); osc.stop(t + i*0.2 + 0.2);
+    });
+  } catch(e) {}
+}
+
+// ===== TTS =====
+function speakText(text) {
+  if (!window.speechSynthesis) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-IN'; u.rate = 0.88; u.pitch = 1.0; u.volume = 1.0;
+  speechSynthesis.speak(u);
+}
+
+// ===== TOAST =====
+function showToast(msg, type = 'info') {
+  const wrap = document.getElementById('toast-wrap');
+  const t = document.createElement('div');
+  const icons = { success:'✅', warning:'⚠️', error:'🚨', info:'ℹ️' };
+  t.className = `toast ${type}`;
+  t.innerHTML = `<span style="flex-shrink:0">${icons[type]||'ℹ️'}</span><span>${msg}</span>`;
+  wrap.appendChild(t);
+  setTimeout(() => { t.style.transition = 'all 0.3s'; t.style.opacity = '0'; t.style.transform = 'translateX(80px)'; setTimeout(() => t.remove(), 300); }, 3800);
+}
+
+// ===== PRESCRIPTIONS =====
+function addPrescript() {
+  const name = document.getElementById('nm-name').value.trim();
+  if (!name) { showToast('⚠️ Please enter medicine name', 'warning'); return; }
+  const dose = document.getElementById('nm-dose').value || '1 Tablet';
+  const time = document.getElementById('nm-time').value;
+  const meal = document.getElementById('nm-meal').value;
+  const color = document.getElementById('nm-color').value;
+  const shape = document.getElementById('nm-shape').value;
+  const cond = document.getElementById('nm-cond').value || 'General';
+  const emojis = {White:'⚪',Red:'🔴',Blue:'🔵',Green:'🟢',Yellow:'🟡',Purple:'🟣',Orange:'🟠'};
+  const row = document.createElement('tr');
+  row.innerHTML = `<td><strong>${name}</strong></td><td>${dose}</td><td>${time}</td><td>${meal}</td><td>${cond}</td><td>${emojis[color]||'●'} ${shape}, ${color}</td><td><button class="btn btn-danger btn-xs" onclick="this.closest('tr').remove();showToast('🗑 Removed '+this.closest('tr').querySelector('strong').textContent,'warning')">Remove</button></td>`;
+  document.getElementById('presc-table').appendChild(row);
+  document.getElementById('nm-name').value = '';
+  document.getElementById('nm-dose').value = '';
+  document.getElementById('nm-cond').value = '';
+  document.getElementById('add-presc-form').style.display = 'none';
+  showToast(`✅ ${name} added to prescription!`, 'success');
+  DB.totalDoses++; updateStats();
+}
+
+// ===== VITALS =====
+function logVitals() {
+  const sys = document.getElementById('v-bp-sys').value;
+  const dia = document.getElementById('v-bp-dia').value;
+  const sugar = document.getElementById('v-sugar').value;
+  if (!sys && !sugar) { showToast('⚠️ Enter at least one vital reading', 'warning'); return; }
+  showToast(`✅ Vitals logged: BP ${sys||'—'}/${dia||'—'} · Sugar ${sugar||'—'} mg/dL`, 'success');
+  speakText(`Vitals logged successfully. Blood pressure ${sys} over ${dia}, blood sugar ${sugar} milligrams per deciliter.`);
+}
+
+// ===== APPOINTMENTS =====
+function addAppt() {
+  showToast('📅 Use the form below to add a new appointment', 'info');
+}
+
+// ===== INIT =====
+window.addEventListener('load', () => {
+  updateStats();
+  // Restore taken state from localStorage
+  DB.takenDoses.forEach(id => {
+    const btn = document.getElementById('btn-' + id);
+    const card = document.getElementById('card-' + id);
+    if (btn) { btn.className = 'dose-btn taken-st'; btn.textContent = '✅ Taken'; btn.disabled = true; }
+    if (card) { card.classList.remove('overdue'); card.classList.add('taken'); }
+  });
+  DB.eatenMeals.forEach(period => {
+    const btn = document.getElementById(`meal-${period}-btn`);
+    if (btn) { btn.className = 'meal-btn eaten'; btn.innerHTML = '✅ Meal Eaten & Confirmed!'; btn.disabled = true; }
+  });
+
+  setTimeout(() => showToast('👋 Welcome to MediMate! You have 1 missed dose today.', 'warning'), 800);
+  setTimeout(() => speakText('Welcome to MediMate. Good morning, Ramesh. You have one missed dose and three upcoming doses today. Please take your morning medicines now.'), 1500);
+});
+</script>
+</body>
+</html>
