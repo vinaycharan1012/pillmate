@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+*.pyo
+android/build/
+android/.gradle/
+*.db-shm
+*.db-wal
